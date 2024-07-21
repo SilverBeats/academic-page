@@ -1,0 +1,38 @@
+[
+    {
+        "title": "Author1, Author2, Author3, et al. Title [J] Journal Name, Year, Volume: pp.",
+        "authors": [
+            "Author1", "Author2", "Author3", "Author4", "Author5", "Author6"
+        ],
+        "bookTitle": "Journal Name",
+        "year": 2024,
+        "authorType": [
+            1
+        ],
+        "paperType": "journal",
+        "addition": {
+            "video": "https://731-5.vod.tv.itc.cn/sohu/v1/TmPdqEIsRh6HDTKdgLyX046l86x6Dpwl86fC0TkBbBXUyYbSoO27fSx.mp4?k=I4yzRr&p=jWlvzSwmomvmqpxCqKO349xIWhyOfhe4Rh6OWBesWBWXWJetfDyS0MocRYo70ScAZMx4gGo70O2CfMXS0pbcWhoGgY2Uuho7oB2OwmN7ZD6Sqp8VoO2swmN2ZMemNp&r=TUldziJCtpCmhWlvsmCiomwWtWaizY&q=OpCihW7IWFodRDbtwmfCyY2sWJWHfJbtlG6OlGvsRho2ZDvXfGAOfB6Owm4cWJWXr&nid=731",
+            "bib": "paper1",
+            "blog": "paper1",
+            "paper": "paper1"
+        }
+    },
+    {
+        "title": "Author1, Author2, Author3, et al. Title [C] Conference Name, Year, address, pp.",
+        "authors": [
+            "Author1", "Author2", "Author3", "Author4", "Author5", "Author6"
+        ],
+        "bookTitle": "Conference Name",
+        "year": 2024,
+        "authorType": [
+            1
+        ],
+        "paperType": "conference",
+        "addition": {
+            "video": null,
+            "bib": null,
+            "blog": null,
+            "paper": "https://arxiv.org/abs/2407.11969"
+        }
+    }
+]

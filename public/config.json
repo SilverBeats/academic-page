@@ -1,0 +1,31 @@
+{
+    "hasLogo": false,
+    "adoptSearch": true,
+    "logoInfo": {
+        "path": null,
+        "width": null,
+        "height": null
+    },
+    "userInfo": {
+        "firstName": "Ming",
+        "lastName": "Xiao",
+        "zhName": "小明",
+        "photo": "user.png",
+        "address": null,
+        "tel": null,
+        "email": "xxxx@qq.com",
+        "wechat": null,
+        "qq": null,
+        "facebook": null,
+        "twitter": null,
+        "github": "https://github.com/xxxx",
+        "orcid": "https://orcid.org/xxxx",
+        "dblp": "https://dblp.org/pid/xxxx"
+    },
+    "navInfo": {
+        "home": "/",
+        "publications": "/publications",
+        "cv": "/cv",
+        "projects": "/projects"
+    }
+}
