@@ -130,7 +130,7 @@ export default {
 
             .item-content {
                 margin-left: 0.5rem;
-                width: calc(140px - 0.5rem);
+                width: calc(170px - 0.5rem);
                 overflow-wrap: break-word;
             }
         }

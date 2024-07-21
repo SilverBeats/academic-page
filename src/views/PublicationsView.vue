@@ -93,6 +93,15 @@ export default {
             const content = await loadFile('/pages/publication.json')
             this.papersInfoList = JSON.parse(content)
             this.papersInfoList.sort((a, b) => b.year - a.year)
+
+            for (let paper of this.papersInfoList) {
+                for (let key in paper['addition']) {
+                    if (!paper['addition'][key]) {
+                        delete paper['addition'][key]
+                    }
+                }
+            }
+
             this.showPapersInfoList = this.papersInfoList
         },
 

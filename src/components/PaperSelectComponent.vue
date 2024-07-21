@@ -71,12 +71,6 @@ export default {
                     candAuthorTypes.update(at + '')
                 }
                 candPaperTypes.update(paper['paperType'])
-
-                for (let key in paper['addition']) {
-                    if (!paper['addition'][key]) {
-                        delete paper['addition'][key]
-                    }
-                }
             }
 
             // 处理select选项
