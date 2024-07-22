@@ -7,13 +7,13 @@
         :link-list="paper['addition']"
         @buttonClick="additionClickHandle"
     />
+    <a id="tag-a" style="display:none;" target="_blank"></a>
 </template>
 
 
 <script>
 import CardListItem from "@/components/CardListItem.vue";
-import {loadFile, messageNotice} from "@/utils/tools.js";
-import {toRaw} from "vue";
+import {clickTagAtoJump, isUrl, loadFile, messageNotice} from "@/utils/tools.js";
 
 export default {
     name: "ProjectsView",
@@ -32,17 +32,14 @@ export default {
             this.projectsInfoList = JSON.parse(content)
         },
         additionClickHandle(key, value) {
-            if (!['blog'].includes(key))
-                return messageNotice(`Unknown key = ${key}`, 'error')
             if (key === 'blog') {
                 this.$router.push({name: 'postView', query: {fileName: value}})
+            } else if (isUrl(value)) {
+                clickTagAtoJump('tag-a', value)
+            } else {
+                return messageNotice(`key = ${key}, not support currently`, 'error')
             }
         }
     }
 }
 </script>
-
-
-<style scoped lang="less">
-
-</style>

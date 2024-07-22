@@ -16,7 +16,7 @@
         </section>
     </section>
     <!-- 隐藏的用于下载的 a 标签 -->
-    <a id="downloadLink" style="display:none;"></a>
+    <a id="tag-a" style="display:none;" target="_blank"></a>
     <!--显示bibtex的对话框-->
     <el-dialog
         class="bibtex-dialog"
@@ -49,14 +49,14 @@
 
 <script>
 import {DocumentCopy} from '@element-plus/icons-vue'
-import {messageNotice, loadFile} from '@/utils/tools.js'
+import {messageNotice, loadFile, isUrl, clickTagAtoJump} from '@/utils/tools.js'
 import CardListItem from "@/components/CardListItem.vue";
 import SelectComponent from "@/components/SelectComponent.vue";
 import VideoComponent from "@/components/VideoComponent.vue";
 import PaperSelectComponent from "@/components/PaperSelectComponent.vue";
 
 export default {
-    name: 'PublicationView',
+    name: 'PublicationsView',
     data() {
         return {
             // 文件原始数据
@@ -110,44 +110,31 @@ export default {
          * @param value 跳转的值
          */
         async additionClickHandle(key, value) {
-            if (!['blog', 'paper', 'video', 'bib'].includes(key))
-                return messageNotice(`Unknown key = ${key}`, 'error')
-
             try {
                 if (key === 'blog') {
                     this.$router.push({name: 'postView', query: {fileName: value}})
                 } else if (key === 'paper') {
                     if (value.split('.').pop() !== 'pdf')
                         value = value + '.pdf'
-                    this.downloadFile(
-                        value.startsWith('http') ? value : `/${key}s/${value}`,
-                        value.split('/').pop(),
-                    )
+                    clickTagAtoJump('tag-a', isUrl(value) ? value : `/${key}s/${value}`)
                 } else if (key === 'bib') {
                     if (value.split('.').pop() !== 'bib')
                         value = value + '.bib'
                     this.bibtexDialogSettings.content = await loadFile(`/${key}s/${value}`)
                     this.bibtexDialogSettings.dialogVisible = true
-                } else {
+                } else if (key === 'video') {
                     this.videoOptions.sources = [{
-                        src: value.startsWith('http') ? value : `/${key}s/${value}`
+                        src: isUrl(value) ? value : `/${key}s/${value}`
                     }]
                     this.videoDialogSettings.dialogVisible = true
+                } else if (isUrl(value)){
+                    clickTagAtoJump('tag-a', value)
+                } else {
+                    return messageNotice(`key = ${key}, not support currently`, 'error')
                 }
             } catch (error) {
                 messageNotice(error, 'error')
             }
-        },
-        /**
-         * @param filePath 下载地址
-         * @param downloadFileName 下载文件名
-         */
-        downloadFile(filePath, downloadFileName) {
-            let link = document.getElementById('downloadLink')
-            link.href = filePath
-            link.download = downloadFileName
-            link.click();
-            link.href = ''
         },
         /**
          * 赋值bibtex文件

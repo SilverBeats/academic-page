@@ -1,7 +1,7 @@
 import {ElLoading, ElMessage} from "element-plus";
 
 export {
-    messageNotice, Counter, loadFile
+    messageNotice, Counter, loadFile, isUrl, clickTagAtoJump
 }
 
 let loading = null
@@ -40,6 +40,17 @@ async function loadFile(targetFilePath) {
                 closeLoading()
             })
     });
+}
+
+function isUrl(s) {
+    return s.startsWith('http')
+}
+
+function clickTagAtoJump(aId, path) {
+    let link = document.getElementById(aId)
+    link.href = path
+    link.target = '_blank'
+    link.click()
 }
 
 class Counter {
