@@ -29,7 +29,7 @@ async function loadFile(targetFilePath) {
     return new Promise((resolve, reject) => {
         const timestamp = new Date().getTime()
         openLoading()
-        fetch(targetFilePath)
+        fetch(targetFilePath + `?${timestamp}`)
             .then(response => response.text())
             .then(content => {
                 resolve(content)
