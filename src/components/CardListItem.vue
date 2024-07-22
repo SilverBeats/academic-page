@@ -1,10 +1,8 @@
 <template>
     <el-card shadow="hover">
         <el-row>
-            <el-col :md="1" :xs="2">[{{ index + 1 }}]</el-col>
-            <el-col :md="23" :xs="22">
-                {{title }}
-            </el-col>
+            <el-col :lg="1" :md="2" :sm="2" :xs="2">[{{ index + 1 }}]</el-col>
+            <el-col :lg="23" :md="22" :sm="22" :xs="22">{{title }}</el-col>
         </el-row>
         <section class="hyp-link-box">
             <el-button
