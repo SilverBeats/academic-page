@@ -47,115 +47,97 @@
     </el-dialog>
 </template>
 
-<script>
+<script setup>
 import {DocumentCopy} from '@element-plus/icons-vue'
 import {messageNotice, loadFile, isUrl, clickTagAtoJump} from '@/utils/tools.js'
 import CardListItem from "@/components/CardListItem.vue";
-import SelectComponent from "@/components/SelectComponent.vue";
 import VideoComponent from "@/components/VideoComponent.vue";
 import PaperSelectComponent from "@/components/PaperSelectComponent.vue";
+import {ref, reactive, onBeforeMount, inject} from "vue";
+import {useRouter} from "vue-router";
+const router = useRouter()
+const isMobile = inject('isMobile')
+const websiteConfig = inject('websiteConfig')
+const sourceFilePath = '/pages/publication.json'
+// 文件原始数据
+const papersInfoList = ref([])
+// 用于渲染的paper列表
+const showPapersInfoList = ref([])
+const bibtexDialogSettings = reactive({
+    dialogVisible: false,
+    content: ''
+})
+const videoDialogSettings = reactive({
+    dialogVisible: false,
+})
+const videoOptions = reactive({
+    controls: true,
+    muted: true,
+    fluid: true,
+    reload: 'auto',
+    sources: []
+})
+const windowWidth = ref(window.innerWidth)
 
-export default {
-    name: 'PublicationsView',
-    data() {
-        return {
-            // 文件原始数据
-            papersInfoList: [],
-            // 用于渲染的paper列表
-            showPapersInfoList: [],
-            bibtexDialogSettings: {
-                dialogVisible: false,
-                content: ''
-            },
-            videoDialogSettings: {
-                dialogVisible: false,
-            },
-            videoOptions: {
-                controls: true,
-                muted: true,
-                fluid: true,
-                reload: 'auto',
-                sources: []
-            },
-            windowWidth: window.innerWidth
-        }
-    },
-    inject: ['isMobile', 'websiteConfig'],
-    async beforeMount() {
-        await this.init()
-    },
-    components: {PaperSelectComponent, VideoComponent, SelectComponent, CardListItem, DocumentCopy},
-    methods: {
-        /**
-         * 一些初始化
-         */
-        async init() {
-            const content = await loadFile('/pages/publication.json')
-            this.papersInfoList = JSON.parse(content)
-            this.papersInfoList.sort((a, b) => b.year - a.year)
+onBeforeMount(async () => {
+    const content = await loadFile(sourceFilePath)
+    const _papersInfoList = JSON.parse(content)
+    _papersInfoList.sort((a, b) => b.year - a.year)
 
-            for (let paper of this.papersInfoList) {
-                for (let key in paper['addition']) {
-                    if (!paper['addition'][key]) {
-                        delete paper['addition'][key]
-                    }
-                }
+    for (let paper of _papersInfoList) {
+        for (let key in paper['addition']) {
+            if (!paper['addition'][key]) {
+                delete paper['addition'][key]
             }
-
-            this.showPapersInfoList = this.papersInfoList
-        },
-
-        /**
-         * @param key 按钮类型
-         * @param value 跳转的值
-         */
-        async additionClickHandle(key, value) {
-            try {
-                if (key === 'blog') {
-                    this.$router.push({name: 'postView', query: {fileName: value}})
-                } else if (key === 'paper') {
-                    if (value.split('.').pop() !== 'pdf')
-                        value = value + '.pdf'
-                    clickTagAtoJump('tag-a', isUrl(value) ? value : `/${key}s/${value}`)
-                } else if (key === 'bib') {
-                    if (value.split('.').pop() !== 'bib')
-                        value = value + '.bib'
-                    this.bibtexDialogSettings.content = await loadFile(`/${key}s/${value}`)
-                    this.bibtexDialogSettings.dialogVisible = true
-                } else if (key === 'video') {
-                    this.videoOptions.sources = [{
-                        src: isUrl(value) ? value : `/${key}s/${value}`
-                    }]
-                    this.videoDialogSettings.dialogVisible = true
-                } else if (isUrl(value)){
-                    clickTagAtoJump('tag-a', value)
-                } else {
-                    return messageNotice(`key = ${key}, not support currently`, 'error')
-                }
-            } catch (error) {
-                messageNotice(error, 'error')
-            }
-        },
-        /**
-         * 赋值bibtex文件
-         */
-        copyBibtexCodeHandle() {
-            navigator.clipboard.writeText(this.bibtexDialogSettings.content)
-                .then(_ => {
-                    messageNotice('Copied', 'success')
-                }).catch(_ => {
-                messageNotice('Copy Filed', 'error')
-            })
-        },
-        /**
-         * 搜索
-         */
-        searchHandle(filterList) {
-            this.showPapersInfoList = filterList
-            messageNotice(`${this.showPapersInfoList.length} records were retrieved`, 'success')
         }
     }
+    showPapersInfoList.value = _papersInfoList
+    papersInfoList.value = _papersInfoList
+})
+
+const additionClickHandle = async (key, value) => {
+    try {
+        if (key === 'blog') {
+            await router.push({path: '/post', query: {fileName: value}})
+        } else if (key === 'paper') {
+            if (value.split('.').pop() !== 'pdf')
+                value = value + '.pdf'
+            clickTagAtoJump('tag-a', isUrl(value) ? value : `/${key}s/${value}`)
+        } else if (key === 'bib') {
+            if (value.split('.').pop() !== 'bib')
+                value = value + '.bib'
+            bibtexDialogSettings.content = await loadFile(`/${key}s/${value}`)
+            bibtexDialogSettings.dialogVisible = true
+        } else if (key === 'video') {
+            videoOptions.sources = [{
+                src: isUrl(value) ? value : `/${key}s/${value}`
+            }]
+            videoDialogSettings.dialogVisible = true
+        } else if (isUrl(value)) {
+            clickTagAtoJump('tag-a', value)
+        } else {
+            return messageNotice(`key = ${key}, not support currently`, 'error')
+        }
+    } catch (error) {
+        messageNotice(error, 'error')
+    }
 }
+
+const copyBibtexCodeHandle = async () => {
+    try {
+        await navigator.clipboard.writeText(bibtexDialogSettings.content)
+        messageNotice('Copied', 'success')
+    } catch (error) {
+        messageNotice('Copy Filed', 'error')
+        console.log(error)
+    }
+}
+
+const searchHandle = (filterList) => {
+    showPapersInfoList.value = filterList
+    messageNotice(`${showPapersInfoList.value.length} records were retrieved`, 'success')
+}
+
 </script>
 
 <style lang="less" scoped>

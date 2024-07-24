@@ -39,41 +39,34 @@
 </template>
 
 
-<script>
-export default {
-    name: 'UserInfoComponent',
-    inject: ['websiteConfig'],
-    data() {
-        return {
-            userInfo: this.websiteConfig['userInfo'],
-        }
-    },
-    computed: {
-        needToRenderFields() {
-            const renderObj = JSON.parse(JSON.stringify(this.userInfo))
-            delete renderObj['firstName']
-            delete renderObj['lastName']
-            delete renderObj['zhName']
-            delete renderObj['photo']
-            for (const key in renderObj) {
-                if (!renderObj[key])
-                    delete renderObj[key]
-            }
-            ''.startsWith('https')
-            return renderObj
-        }
-    },
-    beforeMount() {
-        if (!this.userInfo['photo']) {
-            this.userInfo['photo'] = 'user.png'
-        }
-    },
-    methods: {
-        getImagePath(fileName) {
-            return `/images/${fileName}`
-        }
+<script setup>
+import {onBeforeMount, inject, computed} from "vue";
+
+const websiteConfig = inject('websiteConfig')
+const userInfo = websiteConfig['userInfo']
+
+const needToRenderFields = computed(() => {
+    const renderObj = JSON.parse(JSON.stringify(userInfo))
+    delete renderObj['firstName']
+    delete renderObj['lastName']
+    delete renderObj['zhName']
+    delete renderObj['photo']
+    for (const key in renderObj) {
+        if (!renderObj[key])
+            delete renderObj[key]
     }
+    return renderObj
+})
+
+const getImagePath = fileName => {
+    return `/images/${fileName}`
 }
+
+onBeforeMount(() => {
+    if (!userInfo['photo']) {
+        userInfo['photo'] = 'user.png'
+    }
+})
 </script>
 
 

@@ -24,28 +24,16 @@
     </el-drawer>
 </template>
 
-<script>
-import {Expand, Fold} from "@element-plus/icons-vue";
-import UserInfoComponent from "@/components/UserInfoComponent.vue";
+<script setup>
+import {Expand} from "@element-plus/icons-vue"
+import UserInfoComponent from "@/components/UserInfoComponent.vue"
+import {inject, ref} from "vue"
 
-export default {
-    name: "MobileUserInfoComponent",
-    data() {
-        return {
-            isShow: false,
-            drawerWidth: parseInt(this.windowWidth * 0.8)
-        }
-    },
-    inject: ["windowWidth"],
-    components: {
-        Expand, Fold,
-        UserInfoComponent,
-    },
-    methods: {
-        clickHandle() {
-            this.isShow = !this.isShow;
-        }
-    }
+const windowWidth = inject('windowWidth')
+const isShow = ref(false);
+const drawerWidth = ref(parseInt(windowWidth * 0.8));
+const clickHandle = () => {
+    isShow.value = !isShow.value;
 }
 </script>
 <style scoped lang="less">
@@ -57,6 +45,7 @@ export default {
     align-items: center;
     justify-content: center;
     transition: right 0.3s cubic-bezier(0.55, 0, 0.1, 1) 0s;
+
     .el-icon {
         font-size: 25px;
     }

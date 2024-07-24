@@ -2,7 +2,7 @@
     <el-card shadow="hover">
         <el-row>
             <el-col :lg="1" :md="2" :sm="2" :xs="2">[{{ index + 1 }}]</el-col>
-            <el-col :lg="23" :md="22" :sm="22" :xs="22">{{title }}</el-col>
+            <el-col :lg="23" :md="22" :sm="22" :xs="22">{{ title }}</el-col>
         </el-row>
         <section class="hyp-link-box">
             <el-button
@@ -17,22 +17,20 @@
     </el-card>
 </template>
 
-<script>
-export default {
-    name: "CardListItem",
-    props: {
-        index: -1,
-        title: '',
-        linkList: {
-            type: Object,
-            default: () => {}
-        }
-    },
-    methods: {
-        additionClickHandle(k ,v) {
-            this.$emit('buttonClick', k, v)
-        }
+<script setup>
+import {defineProps, defineEmits} from 'vue'
+defineProps({
+    index: -1,
+    title: '',
+    linkList: {
+        type: Object,
+        default: () => {}
     }
+})
+const emits = defineEmits(['buttonClick'])
+
+const additionClickHandle = (k, v) => {
+    emits('buttonClick', k, v)
 }
 </script>
 
@@ -42,9 +40,11 @@ export default {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 10px;
+
     &:last-child {
         margin-bottom: 0;
     }
+
     .el-row {
         flex-wrap: nowrap;
 

@@ -55,32 +55,22 @@
 </template>
 
 
-<script>
+<script setup>
 import {Menu} from '@element-plus/icons-vue'
-import {toRaw} from "vue";
-
-export default {
-    props: {
-        isMobile: {
-            type: Boolean,
-            default: false
-        },
-    },
-    data() {
-        return {
-            activeIndex: '/'
-        }
-    },
-    inject: ['websiteConfig'],
-    components: {Menu},
-    beforeMount() {
-        this.$router.beforeEach((to, from, next) => {
-            this.activeIndex = to.path
-            next()
-        })
-    },
-}
-
+import {ref, inject, defineProps, onBeforeMount} from "vue";
+import { useRouter } from "vue-router";
+defineProps({
+    'isMobile': false
+})
+const activeIndex = ref('/')
+const websiteConfig = inject('websiteConfig')
+onBeforeMount(() => {
+    const router = useRouter()
+    router.beforeEach((to, from, next) => {
+        activeIndex.value = to.path
+        next()
+    })
+})
 </script>
 
 <style scoped>

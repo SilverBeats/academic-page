@@ -5,33 +5,24 @@
 </template>
 
 
-<script>
+<script setup>
 import MarkdownComponent from "@/components/MarkdownComponent.vue";
 import {messageNotice, loadFile} from '@/utils/tools.js'
-
-
-export default {
-    name: "PostView",
-    components: {MarkdownComponent},
-    data() {
-        return {
-            content: ''
-        }
-    },
-    beforeMount() {
-        let fileName = this.$route.query.fileName
-        if (fileName.split('.').pop() !== 'md')
-            fileName = fileName + '.md'
-        loadFile(`/posts/${fileName}`)
-            .then(result => {
-                this.content = result
-            })
-            .catch(error => {
-                messageNotice('File load error !', 'error')
-                console.log(error)
-            })
+import {ref, onBeforeMount} from 'vue'
+import { useRoute } from "vue-router";
+const content = ref('')
+onBeforeMount(async () => {
+    const router = useRoute()
+    let fileName = router.query.fileName
+    if (fileName.split('.').pop() !== 'md')
+        fileName = fileName + '.md'
+    try {
+        content.value = await loadFile(`/posts/${fileName}`)
+    } catch (error) {
+        messageNotice('File load error !', 'error')
+        console.log(error)
     }
-}
+})
 </script>
 
 

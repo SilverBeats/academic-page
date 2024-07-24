@@ -18,23 +18,18 @@
     </el-select>
 </template>
 
-<script>
-export default {
-    name: "SelectComponent",
-    props: {
-        value: '',
-        placeholder: '',
-        options: Array
-    },
-    data() {
-        return {
-            _value: this.value
-        }
-    },
-    methods: {
-        changeHandle(val) {
-            this.$emit('change', val)
-        }
-    }
+<script setup>
+import {defineProps, defineEmits, ref} from 'vue'
+
+const props = defineProps({
+    value: '',
+    placeholder: '',
+    options: {type: Array, default: () => []},
+})
+const emit = defineEmits(['emitChange'])
+
+const _value = ref(props.value)
+const changeHandle = (val) => {
+    emit('emitChange', val)
 }
 </script>

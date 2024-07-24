@@ -17,6 +17,9 @@ dependencies:
   md-editor-v3:
     specifier: ^4.17.3
     version: 4.17.3(@codemirror/view@6.28.4)(@lezer/common@1.2.1)(vue@3.4.31)
+  pinia:
+    specifier: ^2.1.7
+    version: 2.1.7(vue@3.4.31)
   terser:
     specifier: ^5.31.3
     version: 5.31.3
@@ -1726,6 +1729,23 @@ packages:
     engines: {node: '>=6'}
     requiresBuild: true
     optional: true
+
+  /pinia@2.1.7(vue@3.4.31):
+    resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.6.3
+      vue: 3.4.31
+      vue-demi: 0.14.8(vue@3.4.31)
+    dev: false
 
   /pkcs7@1.0.4:
     resolution: {integrity: sha512-afRERtHn54AlwaF2/+LFszyAANTCggGilmcmILUzEjvs3XgFZT+xE6+QWQcAGmu4xajy+Xtj7acLOPdx5/eXWQ==}

@@ -24,22 +24,13 @@
     </el-container>
 </template>
 
-<script>
+<script setup>
 import {RouterView} from 'vue-router'
 import NavComponent from '@/components/NavComponent.vue'
 import UserInfoComponent from '@/components/UserInfoComponent.vue'
 import MobileUserInfoComponent from '@/components/MobileUserInfoComponent.vue'
-
-export default {
-    inject: ["isMobile"],
-    components: {
-        RouterView,
-        NavComponent,
-        UserInfoComponent,
-        MobileUserInfoComponent,
-    }
-}
-
+import {inject} from "vue"
+const isMobile = inject('isMobile')
 </script>
 
 <style scoped lang="less">
@@ -50,6 +41,7 @@ export default {
     height: 100vh;
     flex-direction: column;
     box-sizing: border-box;
+
     #header {
         width: 100%;
         height: 60px;
@@ -61,6 +53,7 @@ export default {
         box-sizing: border-box;
         padding: 20px 0;
         overflow: auto;
+
         .el-col {
             height: 100%;
         }
@@ -68,10 +61,11 @@ export default {
 }
 
 @media (max-width: @mobileWidth) {
-    .custom-class .el-col:first-child{
+    .custom-class .el-col:first-child {
         flex-grow: 0;
     }
-    .custom-class .el-col:nth-child(2){
+
+    .custom-class .el-col:nth-child(2) {
         flex-grow: 1;
     }
 }

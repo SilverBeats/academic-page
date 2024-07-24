@@ -1,25 +1,19 @@
 <template>
     <el-card shadow="hover">
-        <MarkdownComponent :value="content" />
+        <MarkdownComponent :value="content"/>
     </el-card>
 </template>
 
 
-<script>
+<script setup>
+import {ref, onBeforeMount} from "vue"
 import MarkdownComponent from '@/components/MarkdownComponent.vue'
 import {loadFile} from "@/utils/tools.js";
-export default {
-    name: 'HomeView',
-    data() {
-        return {
-            content: ''
-        }
-    },
-    components: {MarkdownComponent},
-    async beforeMount() {
-        this.content = await loadFile('/pages/home.md')
-    }
-}
+
+const content = ref('')
+onBeforeMount(async () => {
+    content.value = await loadFile('/pages/home.md')
+})
 </script>
 
 <style lang="less" scoped>

@@ -5,22 +5,15 @@
 </template>
 
 
-<script>
+<script setup>
+import {onBeforeMount, ref} from "vue"
 import {loadFile} from "@/utils/tools.js"
-import MarkdownComponent from "@/components/MarkdownComponent.vue";
+import MarkdownComponent from "@/components/MarkdownComponent.vue"
 
-export default {
-    name: 'CvView',
-    data() {
-        return {
-            content: ''
-        }
-    },
-    components: {MarkdownComponent},
-    async beforeMount() {
-        this.content = await loadFile('/pages/cv.md')
-    }
-}
+const content = ref('')
+onBeforeMount(async () => {
+    content.value = await loadFile('/pages/cv.md')
+})
 </script>
 
 <style lang="less" scoped>
