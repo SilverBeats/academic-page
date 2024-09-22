@@ -56,9 +56,7 @@ const generateOptions = () => {
 
     for (let paper of props.papersInfoList) {
         candYears.update(paper['year'] + '')
-        for (let at of paper['authorType']) {
-            candAuthorTypes.update(at + '')
-        }
+        candAuthorTypes.update(paper['authorPosition'] + '')
         candPaperTypes.update(paper['paperType'])
     }
 
@@ -90,7 +88,7 @@ const generateOptions = () => {
     })
     paperTypeOptions.value = candPaperTypes.entries().map(item => {
         return {
-            label: `${item[0]} (${item[1]})`,
+            label: `${item[0].title()} (${item[1]})`,
             value: item[0],
         }
     })
@@ -131,7 +129,7 @@ const filterHandle = () => {
         if (selectAuthorTypes.value.length > 0) {
             // 判断当前的paper作者类型列表 和 过滤项 是否有交集
             const set1 = new Set(selectAuthorTypes.value)
-            const set2 = new Set(item['authorType'].map(item => item + ''))
+            const set2 = new Set(item['authorPosition'] + '')
             if ((set1.intersection(set2)).size === 0)
                 return false
         }

@@ -22,6 +22,7 @@
         "orcid": "https://orcid.org/xxxx",
         "dblp": "https://dblp.org/pid/xxxx"
     },
+    "authorMarkInfo": "*: Corresponding Author; #: Supervisor",
     "navInfo": {
         "home": "/",
         "publications": "/publications",

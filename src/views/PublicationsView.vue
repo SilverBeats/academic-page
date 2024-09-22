@@ -4,12 +4,18 @@
         <template v-if="!isMobile && websiteConfig['adoptSearch']">
             <PaperSelectComponent :papersInfoList="papersInfoList" @filter="searchHandle"/>
         </template>
+        <section style="margin-bottom: 8px; font-size: small; text-align: right; width: 98%;">{{websiteConfig['authorMarkInfo']}}</section>
         <section class="content-part">
             <CardListItem
                 v-for="(paper, index) in showPapersInfoList"
                 :key="paper['title'].slice(0, 10)"
-                :index="index"
+                :index="index + 1"
                 :title="paper['title']"
+                :book-title="paper['bookTitle']"
+                :paper-type="paper['paperType']"
+                :authors="paper['authors']"
+                :author-position="paper['authorPosition']"
+                :year="paper['year']"
                 :link-list="paper['addition']"
                 @buttonClick="additionClickHandle"
             />
